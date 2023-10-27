@@ -1,3 +1,18 @@
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+@app.get("/hello/{name}")
+async def say_hello(name: str):
+    return {"message": f"Hello {name}"}
+
+
 from fastapi import FastAPI, APIRouter
 import uvicorn
 
@@ -10,7 +25,7 @@ class HelloWorld():
 
 
 router = APIRouter()
-router.add_api_route('/api/v2/hello-world',
+router.add_api_route('/',
                      endpoint=HelloWorld().read_hello, methods=["GET"])
 app.include_router(router)
 
