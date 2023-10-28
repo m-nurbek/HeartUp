@@ -1,5 +1,6 @@
 FROM python:3.11-slim
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 WORKDIR /app/
 EXPOSE 8000
