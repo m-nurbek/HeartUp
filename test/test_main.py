@@ -1,22 +1,24 @@
 from fastapi.testclient import TestClient
 import requests
-from src.main import app
+import os
+from src.main import app, BASE_DIR
+
 
 client = TestClient(app)
-
 base_url = "http://127.0.0.1:8000/"
 
 
-# response = requests.post(url, headers=headers, files=files)
-# print(response.text)
 def test_root():
     response = client.get(base_url)
     assert response.status_code == 200
 
 
 def test_predict():
-    url = base_url + "/predict"
-    files = {"image": (r"D:\GitHub\HeartUp\images\extra1.png", open(r"D:\GitHub\HeartUp\images\extra1.png", "rb"), "image/png")}
+    url = base_url + "predict"
+    image_path = os.path.abspath(os.path.join(BASE_DIR, "images/1.png"))
+    print(image_path)
+    files = {"image": (image_path, open(image_path, "rb"), "image/png")}
     headers = {"accept": "application/json"}
     response = client.post(url, headers=headers, files=files)
-    assert True
+    print(response.text)
+    assert response.status_code == 200

@@ -3,8 +3,18 @@ from starlette.responses import FileResponse
 import uvicorn
 import pickle
 import cv2
-from . import models
 import sklearn
+import os
+
+
+if os.path.exists('src/main.py'):
+    # Running locally
+    BASE_DIR = os.path.abspath('.')
+else:
+    # Running tests
+    BASE_DIR = os.path.abspath(os.path.join(os.getcwd(), '..'))
+print(BASE_DIR)
+
 
 app = FastAPI()
 
@@ -13,7 +23,7 @@ def image_to_feature_vector(image_path, size=(64, 64)):
     return cv2.resize(image_path, size).flatten()
 
 
-with open(r'src\model.pkl', 'rb') as file:
+with open(os.path.abspath(os.path.join(BASE_DIR, 'src/model.pkl')), 'rb') as file:
     CLF = pickle.load(file)
 
 
@@ -33,11 +43,11 @@ async def predict(image: UploadFile = File(...)):
         if not image.content_type.startswith('image/'):
             raise HTTPException(status_code=400,
                                 detail=f"File 'f{image.filename}' is not an image.")
-        with open(f'images/{image.filename}', 'wb') as f:
+        with open(os.path.abspath(os.path.join(BASE_DIR, f'images/{image.filename}')), 'wb') as f:
             f.write(await image.read())
         print(image.filename)
 
-        cv2img = cv2.imread(f'images/{image.filename}')
+        cv2img = cv2.imread(os.path.abspath(os.path.join(BASE_DIR, f'images/{image.filename}')))
         pixels = image_to_feature_vector(cv2img)
         prediction = CLF.predict([pixels, ])[0]
 
