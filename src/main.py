@@ -13,7 +13,6 @@ if os.path.exists('src/main.py'):
 else:
     # Running tests
     BASE_DIR = os.path.abspath(os.path.join(os.getcwd(), '..'))
-print(BASE_DIR)
 
 
 app = FastAPI()
@@ -45,7 +44,6 @@ async def predict(image: UploadFile = File(...)):
                                 detail=f"File 'f{image.filename}' is not an image.")
         with open(os.path.abspath(os.path.join(BASE_DIR, f'images/{image.filename}')), 'wb') as f:
             f.write(await image.read())
-        print(image.filename)
 
         cv2img = cv2.imread(os.path.abspath(os.path.join(BASE_DIR, f'images/{image.filename}')))
         pixels = image_to_feature_vector(cv2img)
