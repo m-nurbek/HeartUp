@@ -13,7 +13,7 @@ def image_to_feature_vector(image_path, size=(64, 64)):
     return cv2.resize(image_path, size).flatten()
 
 
-with open(r'D:\GitHub\HeartUp\src\model.pkl', 'rb') as file:
+with open(r'src\model.pkl', 'rb') as file:
     CLF = pickle.load(file)
 
 
