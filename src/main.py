@@ -40,16 +40,15 @@ async def say_hello(name: str):
 async def predict(image: UploadFile = File(...)):
     try:
         if not image.content_type.startswith('image/'):
-            raise HTTPException(status_code=400,
-                                detail=f"File 'f{image.filename}' is not an image.")
+            raise HTTPException(status_code=400, detail=f"File 'f{image.filename}' is not an image.")
         with open(os.path.abspath(os.path.join(BASE_DIR, f'images/{image.filename}')), 'wb') as f:
             f.write(await image.read())
 
         cv2img = cv2.imread(os.path.abspath(os.path.join(BASE_DIR, f'images/{image.filename}')))
         pixels = image_to_feature_vector(cv2img)
         prediction = CLF.predict([pixels, ])[0]
-
         return {'filename': image.filename, 'prediction': prediction}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
