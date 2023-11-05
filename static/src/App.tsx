@@ -1,17 +1,18 @@
 import Card from "./components/Card.tsx";
 import React, {useState} from "react";
 import axios, {AxiosResponse} from "axios";
+import HeartUpLogo from './assets/HeartUpLogo_final.svg';
 
 function App() {
-    const apiPredict = "https://heartup-ahhs8sj7.b4a.run/predict"
+    const apiPredict = "https://heartup-ahhs8sj7.b4a.run/predict";
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [response, setResponse] = useState<AxiosResponse | null>(null);
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setSelectedImage(e.target.files[0]);
         }
-
     };
+
     const handleUpload = async() => {
         if (selectedImage) {
             console.log("Uploading image...");
@@ -37,10 +38,10 @@ function App() {
         height: '100vh',
     };
 
-    const text = response ? response.data['filename'] : 'Prediction result is here'
-    const title = response ? response.data['prediction'] : 'Make A Prediction!'
+    const text = response ? response.data['filename'] : 'Prediction result is here';
+    const title = response ? response.data['prediction'] : 'Make A Prediction!';
     // @ts-ignore
-    const img = response ? URL.createObjectURL(selectedImage) : null
+    const img = response ? URL.createObjectURL(selectedImage) : HeartUpLogo;
 
 
     return (
