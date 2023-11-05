@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, HTTPException, File
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
 import uvicorn
 import pickle
@@ -16,6 +17,16 @@ else:
 
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def image_to_feature_vector(image_path, size=(64, 64)):
