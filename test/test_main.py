@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
-import requests
 import os
-from src.main import app, BASE_DIR
+from src.main import app
+from src.settings import BASE_DIR
 
 
 client = TestClient(app)
@@ -21,3 +21,4 @@ def test_predict():
     headers = {"accept": "application/json"}
     response = client.post(url, headers=headers, files=files)
     assert response.status_code == 200
+    assert list(response.json().keys()) == ['filename', 'prediction']

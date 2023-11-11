@@ -17,7 +17,9 @@ npm run dev
 ## How to build and deploy frontend?
 From the base directory run:
 ```bash
+cd static
 npm run build
+cd ..
 git add static/dist -f
 git commit -m "adding dist"
 git subtree push --prefix static/dist origin gh-pages
