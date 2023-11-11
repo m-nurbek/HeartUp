@@ -2,6 +2,9 @@ import Card from "./components/Card.tsx";
 import React, {useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import HeartUpLogo from './assets/HeartUpLogo_final.svg';
+import Navbar from "./components/Navbar.tsx";
+import Main from "./components/Main.tsx";
+
 
 function App() {
     const apiPredict = "https://heartup-ahhs8sj7.b4a.run/predict";
@@ -45,6 +48,9 @@ function App() {
 
 
     return (
+        <>
+        <Navbar></Navbar>
+        <Main></Main>
         <div style={style}>
             <Card title={title} text={text} img={img}>
                 <div className="input-group">
@@ -53,6 +59,7 @@ function App() {
                 </div>
             </Card>
         </div>
+        </>
     );
 }
 
