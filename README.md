@@ -1,5 +1,4 @@
 # HeartUp : Where care meets innovation
-<hr/>
 
 ## How to run the backend?
 From the base directory run:
