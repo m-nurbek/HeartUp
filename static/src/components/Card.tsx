@@ -9,6 +9,7 @@ interface Props {
     cardWidth?: number;
 }
 
+// I did a mistake
 function Card({children, title, text, img, cardWidth}: Props) {
 
     return (
