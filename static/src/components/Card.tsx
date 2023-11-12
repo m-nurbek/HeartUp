@@ -8,7 +8,7 @@ interface Props {
     img: string | null;
     cardWidth?: number;
 }
-// frrfrfrrfrfrk,k,
+
 function Card({children, title, text, img, cardWidth}: Props) {
 
     return (
