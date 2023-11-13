@@ -2,6 +2,7 @@ import Card from "./components/Card.tsx";
 import React, {useState} from "react";
 import axios, {AxiosResponse} from "axios";
 import HeartUpLogo from './assets/HeartUpLogo_final.svg';
+import WelcomeText from "./components/WelcomeText.tsx";
 
 function App() {
     const apiPredict = "https://heartup-ahhs8sj7.b4a.run/predict";
@@ -46,6 +47,7 @@ function App() {
 
     return (
         <div style={style}>
+            <WelcomeText text={"What's poppin?"}/>
             <Card title={title} text={text} img={img}>
                 <div className="input-group">
                     <input type="file" onChange={handleFileChange} className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
