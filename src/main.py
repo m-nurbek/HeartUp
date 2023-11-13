@@ -1,8 +1,8 @@
-from fastapi import FastAPI, UploadFile, HTTPException, File
-from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from routers import predictions
-from settings import BASE_DIR
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from src.routers import predictions
 
 app = FastAPI(title="HeartUp")
 
