@@ -6,7 +6,6 @@ import CompanyLogo from "../../assets/company_logo.svg"
 function Navbar() {
     return (
     <>
-
         <div className={styles.navbar}>
             <img className={styles.heartup_logo} alt="Heartup logo" src={CompanyLogo} />
             <div className={styles.column}>
@@ -26,7 +25,6 @@ function Navbar() {
                 </div>
             </div>
         </div>
-
     </>
     )
 }
