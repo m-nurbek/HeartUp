@@ -10,18 +10,19 @@ function Navbar() {
             <img className={styles.heartup_logo} alt="Heartup logo" src={CompanyLogo} />
             <div className={styles.column}>
                 <div className={styles.links_wrapper}>
-                    <div className={styles.link}>About Us</div>
-                    <div className={styles.link}>Services</div>
-                    <div className={styles.link}>Projects</div>
+                    <a className={styles.link} href={""}>About Us</a>
+                    <a className={styles.link} href={""}>Services</a>
+                    <a className={styles.link} href={""}>Projects</a>
                     <div className={styles.navLinkDropdown}>
-                        <div className={styles.link}>More
+                        <a className={styles.link} href={""}>
+                            <span>More</span>
                             <img className={styles.chevronDown} alt="Chevron down" src={ChevronDown} />
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div className={styles.actions}>
-                <NavbarButton type={"secondary"}>Sign Up</NavbarButton>
-                <NavbarButton type={"primary"}>Login</NavbarButton>
+                <NavbarButton type={"secondary"} href={""}>Sign Up</NavbarButton>
+                <NavbarButton type={"primary"} href={""}>Login</NavbarButton>
                 </div>
             </div>
         </div>
