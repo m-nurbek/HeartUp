@@ -318,36 +318,55 @@
 }
 
 /* ===== Navbar elements ===== */
+/* for mobile */
 .navbar {
-    overflow: hidden;
-    position: relative;
-    align-items: center;
+    align-items: flex-start;
     display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 1em 1.5em;
+    position: relative;
+}
+
+.navbar > .logo {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
     justify-content: space-between;
-    padding: 1em 5em;
-    background-color: var(--white);
+    gap: 2em;
 }
-.navbar .heartup_logo {
-  height: 2.5em;
-  position: relative;
+
+.navbar > .logo > .heartup_logo {
+    height: 2em;
+    position: relative;
 }
-.column {
-    align-items: center;
-    display: inline-flex;
-    gap: 32px;
-    justify-content: center;
+
+.navbar > .logo > .icon {
+    position: relative;
+    font-size: 1.3em;
+}
+
+.navbar > .column {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
     position: relative;
     text-transform: uppercase;
     font-weight: 400;
+    gap: 2em;
 }
-.links_wrapper {
-    align-items: flex-start;
-    display: inline-flex;
-    flex: 0 0 auto;
-    gap: 32px;
-    position: relative;
 
+.navbar > .column .links_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
+
 .column .link {
     color: var(--black);
     font-family: var(--text-regular-normal-font-family);
@@ -356,14 +375,16 @@
     font-weight: var(--text-regular-normal-font-weight);
     letter-spacing: var(--text-regular-normal-letter-spacing);
     line-height: var(--text-regular-normal-line-height);
-    margin-top: -1px;
     position: relative;
     white-space: nowrap;
-    width: fit-content;
-    display: flex;
     cursor: pointer;
     text-decoration: none;
+    display: block;
+    width: fit-content;
+
+    padding: 0.7em 0;
 }
+
 .column .link:before {
     content: "";
     position: absolute;
@@ -376,31 +397,28 @@
     transform: scaleX(0);
     transition: all 0.4s ease-in-out 0s;
 }
+
 .column .link:hover:before {
     visibility: visible;
-    transform: scaleX(1);
+    transform: scaleX(3);
 }
-.link .chevron_down {
-    display:block;
+
+.link .more {
+    display: flex;
+    flex-direction: row;
 }
-.link span {
-    display:block;
+
+.link, .more > .span {
+    display: inline-block;
 }
-.column .nav-link-dropdown {
-    align-items: center;
-    display: inline-flex;
-    flex: 0 0 auto;
-    gap: 4px;
-    justify-content: center;
-    position: relative;
-}
+
 .column .actions {
-    align-items: center;
-    display: inline-flex;
-    flex: 0 0 auto;
-    gap: 16px;
-    justify-content: center;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1em;
 }
 
 /* Navbar Buttons */
@@ -418,8 +436,11 @@
     overflow: hidden;
     transition: all 200ms linear;
     cursor: pointer;
+
+    width: 90%;
 }
-.style_secondary:after{
+
+.style_secondary::after {
     background: rgba(187, 182, 182, 0.9);
     content: "";
     height: 155px;
@@ -431,14 +452,17 @@
     transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
     width: 50px;
 }
+
 .style_secondary:hover {
     outline-offset: 0.1em;
     transition: all 200ms linear;
 }
-.style_secondary:hover:after {
+
+.style_secondary:hover::after {
     left: 120%;
     transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
 }
+
 .style_secondary .button {
     color: var(--black);
     font-family: var(--text-regular-normal-font-family);
@@ -452,21 +476,27 @@
     width: fit-content;
     z-index: 20;
 }
+
 .style_primary {
     text-decoration: none;
     align-items: center;
     background-color: var(--black);
-    border: 1px solid var(--black);
+    outline: rgba(0, 0, 0, 1) solid 1px;
+    outline-offset: 0;
     display: inline-flex;
-    gap: 8px;
+    gap: 0.5em;
     justify-content: center;
     padding: 0.6em 1.4em;
     position: relative;
     cursor: pointer;
+
+    width: 90%;
 }
+
 .style_primary:hover {
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 .style_primary .button {
     color: var(--white);
     font-family: var(--text-regular-normal-font-family);
@@ -479,4 +509,97 @@
     white-space: nowrap;
     width: fit-content;
 }
-/* ========================== */
+
+/* for desktop */
+@media only screen and (min-width: 900px) {
+    .navbar {
+        overflow: hidden;
+        position: relative;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1em 5em;
+        background-color: var(--white);
+        gap: 4em;
+    }
+
+    .navbar > .logo {
+        position: relative;
+        display: inline-flex;
+        gap: 2em;
+    }
+
+    .navbar > .logo > .heartup_logo {
+        height: 2.5em;
+        position: relative;
+    }
+
+    .navbar > .logo > .icon {
+        display: none;
+    }
+
+    .navbar > .column {
+        align-items: center;
+        display: flex;
+        gap: 2em;
+        flex-direction: row;
+        justify-content: center;
+        position: relative;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+
+    .navbar > .column .links_wrapper {
+        align-items: flex-start;
+        display: inline-flex;
+        flex: 0 0 auto;
+        gap: 2em;
+        position: relative;
+        flex-direction: row;
+        width: fit-content;
+    }
+
+    .column .link {
+        width: fit-content;
+        display: flex;
+    }
+
+    .column .link::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        margin: -5px 0;
+        background-color: #000000;
+        visibility: hidden;
+        transform: scaleX(0);
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .column .link:hover::before {
+        visibility: visible;
+        transform: scaleX(1);
+    }
+
+    .column .actions {
+        align-items: center;
+        display: inline-flex;
+        flex: 0 0 auto;
+        gap: 0.5em;
+        justify-content: center;
+        position: relative;
+
+        flex-direction: row;
+        width: fit-content;
+    }
+
+    .style_secondary {
+        width: fit-content;
+    }
+    .style_primary {
+        width: fit-content;
+    }
+
+}
