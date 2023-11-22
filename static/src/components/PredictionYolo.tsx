@@ -40,7 +40,9 @@ function PredictionYolo(){
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginRight: '30px',
         height: '100vh',
+        width: '200vh',
     };
 
     // @ts-ignore
