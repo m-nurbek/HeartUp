@@ -15,7 +15,7 @@ def test_root():
 
 def test_predict():
     url = base_url + "predict"
-    image_path = os.path.abspath(os.path.join(BASE_DIR, "images/1.png"))
+    image_path = os.path.abspath(BASE_DIR / "images/1.png")
 
     files = {"image": (image_path, open(image_path, "rb"), "image/png")}
     headers = {"accept": "application/json"}

@@ -355,6 +355,7 @@
     text-transform: uppercase;
     font-weight: 400;
     gap: 2em;
+    z-index: 20;
 }
 
 .navbar > .column .links_wrapper {

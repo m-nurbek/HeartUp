@@ -2,8 +2,12 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.routers import predictions
+from src.orm import models, crud, schemas
+from src.settings import SessionLocal, engine
+from src.routers import predictions, orm
 
+
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="HeartUp")
 
 origins = ["*"]
@@ -16,6 +20,7 @@ app.add_middleware(
 )
 
 app.include_router(predictions.router)
+app.include_router(orm.router)
 
 
 @app.get("/")
