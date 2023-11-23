@@ -5,7 +5,7 @@ import CompanyLogo from "../../assets/company_logo.svg"
 import {useState} from "react";
 
 function Navbar() {
-    const [on, setOn] = useState<boolean>(false);
+    const [on, setOn] = useState<boolean>(true);
     const toggleNavbar = () => {
         setOn(!on);
     }
