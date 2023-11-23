@@ -1,9 +1,10 @@
 import Card from "./Card.tsx";
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import HeartUpLogo from "../assets/HeartUpLogo_final.svg";
 
 
 function PredictionCar() {
+    const predictionCarRef = useRef(null);
     const apiPredict = "http://127.0.0.1:8000/predict";
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [response, setResponse] = useState<JSON | null>(null);
@@ -38,7 +39,9 @@ function PredictionCar() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: '30px',
         height: '100vh',
+        width: '200vh',
     };
 
     // @ts-ignore
@@ -49,16 +52,15 @@ function PredictionCar() {
     const img = response ? URL.createObjectURL(selectedImage) : HeartUpLogo;
 
     return (
-        <>
-        <div style={style}>
-            <Card title={title} text={text} img={img}>
-                <div className="input-group">
-                    <input type="file" onChange={handleFileChange} className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
-                    {selectedImage && <button onClick={handleUpload} className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload a file</button>}
-                </div>
-            </Card>
-        </div>
-        </>
+            <div ref={predictionCarRef} style={style}>
+                <Card title={title} text={text} img={img}>
+                    <div className="input-group">
+                        <input type="file" onChange={handleFileChange} className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
+                        {selectedImage && <button onClick={handleUpload} className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload a file</button>}
+                    </div>
+                </Card>
+            </div>
+
     );
 }
 
