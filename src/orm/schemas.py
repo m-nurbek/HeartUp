@@ -44,7 +44,6 @@ class Specialization(str, Enum):
 
 class DoctorBase(UserBase):
     profile_description: str
-    photo: UploadFile
     specialization: Specialization
 
 
@@ -54,6 +53,7 @@ class DoctorCreate(DoctorBase, UserCreate):
 
 class Doctor(DoctorBase):
     _user: User
+    photo: UploadFile
 
     class Config:
         orm_mode = True
