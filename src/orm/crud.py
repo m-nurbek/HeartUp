@@ -1,19 +1,18 @@
 from uuid import UUID
-from sqlalchemy.orm import Session
-
+from sqlmodel import Session, select
 from . import models, schemas
 
 
 def get_user(db: Session, user_id: UUID):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+    return db.exec(select(models.User).where(models.User.user_id == user_id)).first()
 
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(models.User).filter(models.User.email == email).first()
+def get_user_by_email(db: Session, email):
+    return db.exec(select(models.User).where(models.User.email == email)).first()
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
+    return db.exec(select(models.User).offset(skip).limit(limit)).all()
 
 
 def create_user(db: Session, user: schemas.UserCreate):
@@ -25,7 +24,8 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
+    result = new_user
+    return result
 
 
 # Patient ========================

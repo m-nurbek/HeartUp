@@ -1,10 +1,11 @@
 fastapi==0.104.0
 numpy==1.26.1
 opencv-python==4.8.1.78
-pydantic==2.4.2
+pydantic~=1.10.13
 uvicorn==0.23.2
 ultralytics~=8.0.208
 Pillow~=10.1.0
 SQLAlchemy~=2.0.23
 
 phonenumbers~=8.13.25
+sqlmodel~=0.0.12

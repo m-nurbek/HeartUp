@@ -1,24 +1,13 @@
-from fastapi import UploadFile
-from phonenumbers import PhoneNumberFormat, PhoneNumber
-from pydantic import BaseModel
-from enum import Enum
-import phonenumbers
+import uuid
+from datetime import datetime
+from typing import Optional
+from sqlmodel import SQLModel
 
 
-def format_number(phone_number: PhoneNumber | str, format_type: int) -> str:
-    if format_type == PhoneNumberFormat.E164:
-        return phonenumbers.format_number(phone_number, PhoneNumberFormat.E164)
-    elif format_type == PhoneNumberFormat.INTERNATIONAL:
-        return phonenumbers.format_number(phone_number, PhoneNumberFormat.INTERNATIONAL)
-    elif format_type == PhoneNumberFormat.NATIONAL:
-        return phonenumbers.format_number(phone_number, PhoneNumberFormat.NATIONAL)
-    return f"Unsupported format type: {format_type}"
-
-
-class UserBase(BaseModel):
+class UserBase(SQLModel):
     email: str
     name: str
-    surname: str
+    surname: Optional[str]
     phone_number: str
 
 
@@ -26,46 +15,26 @@ class UserCreate(UserBase):
     password: str
 
 
-class User(UserBase):
-    class Config:
-        orm_mode = True
-
-
-class Specialization(str, Enum):
-    neurologist = 'N'
-    pediatrician = 'P'
-    cardiologist = 'C'
-    general_practitioner = 'GN'
-    radiologist = 'R'
-    surgeon = 'S'
-    oncologist = 'O'
-    not_available = 'NA'
+class UserRead(UserBase):
+    user_id: uuid.UUID
 
 
 class DoctorBase(UserBase):
     profile_description: str
-    photo: UploadFile
-    specialization: Specialization
+    photo: str
+    specialization: str
 
 
 class DoctorCreate(DoctorBase, UserCreate):
     pass
 
 
-class Doctor(DoctorBase):
-    _user: User
-
-    class Config:
-        orm_mode = True
-
-
-class Sex(str, Enum):
-    male = 'M'
-    female = 'F'
+class DoctorRead(DoctorBase):
+    doctor_id: uuid.UUID
 
 
 class PatientBase(UserBase):
-    sex: Sex
+    sex: str
     complaints: str
 
 
@@ -73,8 +42,21 @@ class PatientCreate(PatientBase, UserCreate):
     pass
 
 
-class Patient(PatientBase):
-    _user: User
+class PatientRead(PatientBase):
+    patient_id: uuid.UUID
 
-    class Config:
-        orm_mode: True
+
+class AppointmentBase(SQLModel):
+    doctor_id: uuid.UUID
+    patient_id: uuid.UUID
+    appointment_date: datetime
+    appointment_time: datetime
+    status: str
+
+
+class AppointmentCreate(AppointmentBase):
+    pass
+
+
+class AppointmentRead(AppointmentBase):
+    appointment_id: uuid.UUID
