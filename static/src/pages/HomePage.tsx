@@ -10,13 +10,13 @@ function HomePage() {
     const predictionCarRef = useRef<HTMLElement>(null);
 
     return (
-        <div>
-            <Navbar></Navbar>
+        <>
+            <Navbar/>
             <IntroSection predictionCarRef={predictionCarRef}/>
             <AlignedFeatures/>
             <AlignedPredictions/>
             <Footer/>
-        </div>
+        </>
     );
 }
 

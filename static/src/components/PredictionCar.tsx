@@ -40,7 +40,7 @@ function PredictionCar() {
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: '30px',
-        height: '100vh',
+        height: '135vh',
         width: '200vh',
     };
 
@@ -54,7 +54,7 @@ function PredictionCar() {
     return (
             <div ref={predictionCarRef} style={style}>
                 <Card title={title} text={text} img={img}>
-                    <div className="input-group">
+                    <div className="input-group" id="car_scroll">
                         <input type="file" onChange={handleFileChange} className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
                         {selectedImage && <button onClick={handleUpload} className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload a file</button>}
                     </div>

@@ -8,8 +8,8 @@ function Footer(){
         padding: '20px',
         marginLeft: '64px',
         marginRight: '64px',
+        marginTop: '100px',
         marginBottom: '32px',
-
     };
 
     return (

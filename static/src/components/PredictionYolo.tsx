@@ -41,7 +41,7 @@ function PredictionYolo(){
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: '30px',
-        height: '100vh',
+        height: '135vh',
         width: '200vh',
     };
 
@@ -52,10 +52,10 @@ function PredictionYolo(){
         <>
         <div style={style}>
             <Card title={"Yolo prediction"} text={"Upload an image and click the button"} img={img}>
-                <div className="input-group">
-                    <input type="file" onChange={handleFileChangeYolo} className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
-                    {selectedImage && <button onClick={handleUploadYolo} className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload a file</button>}
-                </div>
+                <div className="input-group" id="yolo_scroll">
+                        <input type="file" onChange={handleFileChangeYolo} className="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
+                        {selectedImage && <button onClick={handleUploadYolo} className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload a file</button>}
+                    </div>
             </Card>
         </div>
         </>
