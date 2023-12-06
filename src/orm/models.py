@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import ForeignKey, LargeBinary, Date, Time
+from sqlalchemy import ForeignKey, Date, Time
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils import PhoneNumberType, EmailType, UUIDType, PasswordType, ChoiceType
+from sqlalchemy_utils import UUIDType, PasswordType
 import uuid
 
 from src.settings import Base
@@ -13,10 +13,10 @@ from src.settings import Base
 class User(Base):
     __tablename__ = 'user'
     id = mapped_column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
-    email = mapped_column('email', EmailType)
+    email: Mapped[str] = mapped_column('email')
     name: Mapped[str] = mapped_column('name')
     surname: Mapped[Optional[str]] = mapped_column('surname')
-    phone_number = mapped_column('phone_number', PhoneNumberType())
+    phone_number: Mapped[str] = mapped_column('phone_number')
 
     password = mapped_column(PasswordType(
         schemes=[
@@ -47,7 +47,7 @@ class Doctor(User):
 
     id = mapped_column(UUIDType(binary=False), ForeignKey('user.id'), primary_key=True, default=uuid.uuid4)
     profile_description: Mapped[str] = mapped_column('profile_description')
-    photo = mapped_column('photo', LargeBinary)
+    photo: Mapped[Optional[str]] = mapped_column('photo', default="No photo")
     specialization: Mapped[str] = mapped_column('specialization')
 
     _user: Mapped["User"] = relationship(back_populates='_doctor')

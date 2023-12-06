@@ -2,8 +2,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.orm import models, crud, schemas
-from src.settings import SessionLocal, engine
+from src.orm import models
+from src.settings import engine
 from src.routers import predictions, orm
 
 

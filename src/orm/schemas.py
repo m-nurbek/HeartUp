@@ -1,18 +1,6 @@
-from fastapi import UploadFile
-from phonenumbers import PhoneNumberFormat, PhoneNumber
 from pydantic import BaseModel
 from enum import Enum
-import phonenumbers
-
-
-def format_number(phone_number: PhoneNumber | str, format_type: int) -> str:
-    if format_type == PhoneNumberFormat.E164:
-        return phonenumbers.format_number(phone_number, PhoneNumberFormat.E164)
-    elif format_type == PhoneNumberFormat.INTERNATIONAL:
-        return phonenumbers.format_number(phone_number, PhoneNumberFormat.INTERNATIONAL)
-    elif format_type == PhoneNumberFormat.NATIONAL:
-        return phonenumbers.format_number(phone_number, PhoneNumberFormat.NATIONAL)
-    return f"Unsupported format type: {format_type}"
+from typing import Optional
 
 
 class UserBase(BaseModel):
@@ -32,19 +20,20 @@ class User(UserBase):
 
 
 class Specialization(str, Enum):
-    neurologist = 'N'
-    pediatrician = 'P'
-    cardiologist = 'C'
-    general_practitioner = 'GN'
-    radiologist = 'R'
-    surgeon = 'S'
-    oncologist = 'O'
-    not_available = 'NA'
+    neurologist = 'neurologist'
+    pediatrician = 'pediatrician'
+    cardiologist = 'cardiologist'
+    general_practitioner = 'general_practitioner'
+    radiologist = 'radiologist'
+    surgeon = 'surgeon'
+    oncologist = 'oncologist'
+    not_available = 'not_available'
 
 
 class DoctorBase(UserBase):
     profile_description: str
-    specialization: Specialization
+    specialization: str
+
 
 
 class DoctorCreate(DoctorBase, UserCreate):
@@ -52,16 +41,16 @@ class DoctorCreate(DoctorBase, UserCreate):
 
 
 class Doctor(DoctorBase):
-    _user: User
-    photo: UploadFile
+    photo: Optional[str]
+
 
     class Config:
         orm_mode = True
 
 
 class Sex(str, Enum):
-    male = 'M'
-    female = 'F'
+    male = 'male'
+    female = 'female'
 
 
 class PatientBase(UserBase):
