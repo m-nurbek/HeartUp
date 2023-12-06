@@ -19,7 +19,6 @@ def get_db():
     finally:
         db.close()
 
-
 @router.post("/api/user", response_model=schemas.User, tags=['ORM'])
 async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     if crud.user.get_by_email(db, user.email):
@@ -35,10 +34,10 @@ async def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @router.get("/api/user", response_model=schemas.User, tags=['ORM'])
 async def read_user(user_id: str, db: Session = Depends(get_db)):
     user = crud.user.get_by_id(db=db, id=user_id)
+
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
-
 
 @router.post("/api/doctor", response_model=schemas.Doctor, tags=['ORM'])
 async def create_doctor(doctor: schemas.DoctorCreate = Form(), db: Session = Depends(get_db)):
@@ -57,7 +56,6 @@ async def update_doctor_info(doctor_id: str, photo: Optional[UploadFile] = File(
     doctor = crud.doctor.get_by_id(db=db, id=doctor_id)
     if not doctor:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="No such user/doctor")
-
     photo_path = Path(BASE_DIR / f"src/photos/{photo.filename}").as_posix()
     with open(photo_path, 'wb') as f:
         f.write(await photo.read())
@@ -67,6 +65,7 @@ async def update_doctor_info(doctor_id: str, photo: Optional[UploadFile] = File(
     db.commit()
     db.refresh(doctor)
     return doctor
+
 
 
 @router.get("/api/doctor", response_model=schemas.Doctor, tags=['ORM'])

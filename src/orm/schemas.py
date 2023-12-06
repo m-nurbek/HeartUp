@@ -35,12 +35,14 @@ class DoctorBase(UserBase):
     specialization: str
 
 
+
 class DoctorCreate(DoctorBase, UserCreate):
     pass
 
 
 class Doctor(DoctorBase):
     photo: Optional[str]
+
 
     class Config:
         orm_mode = True

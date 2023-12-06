@@ -13,7 +13,7 @@ function Card({children, title, text, img, cardWidth}: Props) {
 
     return (
         <>
-            <div className="card"  style={{width: (cardWidth ? cardWidth : 30) + '%'}}>
+            <div className="card" id = {"card-model"} style={{width: (cardWidth ? cardWidth : 60) + '%'}}>
                 <img src={img ? img : ReactLogo} className="card-img-top" alt="..." />
                 <div className="card-body">
                     <h5 className="card-title">{title ? title : "Title"}</h5>
