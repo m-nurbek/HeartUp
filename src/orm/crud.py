@@ -1,86 +1,63 @@
-from uuid import UUID
-from sqlmodel import Session, select
+from typing import Generic, TypeVar, Type, Optional, List
+
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
+
 from . import models, schemas
 
 
-def get_user(db: Session, user_id: UUID):
-    return db.exec(select(models.User).where(models.User.user_id == user_id)).first()
+ModelType = TypeVar("ModelType", bound=models.Base)
+CreateSchemaType = TypeVar("CreateSchemaType", bound=schemas.BaseModel)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=schemas.BaseModel)
 
 
-def get_user_by_email(db: Session, email):
-    return db.exec(select(models.User).where(models.User.email == email)).first()
+class CRUDBase(Generic[ModelType, CreateSchemaType]):
+    def __init__(self, model: Type[ModelType]):
+        """
+        CRUD object with default methods to Create, Read, Update, Delete (CRUD).
+        **Parameters**
+        * `model`: A SQLAlchemy model class
+        * `schema`: A Pydantic model (schema) class
+        """
+        self.model = model
+
+    def get_by_id(self, db: Session, id: str) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.id == id).first()
+
+    def get_instances(self, db: Session, skip: int = 0, limit: int = 100) -> List[ModelType]:
+        return db.query(self.model).offset(skip).limit(limit).all()
+
+    def get_by_email(self, db: Session, email: str) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.email == email).first()
+
+    def create_instance(self, db: Session, *, obj: CreateSchemaType) -> ModelType:
+        obj_in_data = jsonable_encoder(obj)
+        db_obj = self.model(**obj_in_data)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.exec(select(models.User).offset(skip).limit(limit)).all()
+class CRUDUser(CRUDBase[models.User, schemas.UserCreate]):
+    def create_instance(self, db: Session, *, user: schemas.UserCreate) -> ModelType:
+        return super().create_instance(db, obj=user)
 
 
-def create_user(db: Session, user: schemas.UserCreate):
-    new_user = models.User(email=user.email,
-                           name=user.name,
-                           surname=user.surname,
-                           phone_number=user.phone_number,
-                           password=user.password)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    result = new_user
-    return result
+user = CRUDUser(models.User)
 
 
-# Patient ========================
-def get_patient(db: Session, patient_id: UUID):
-    return db.query(models.Patient, models.User).filter(models.Patient.id == models.User.id).filter(
-        models.Patient.id == patient_id).first()
+class CRUDDoctor(CRUDBase[models.Doctor, schemas.DoctorCreate]):
+    def create_instance(self, db: Session, *, doctor: schemas.DoctorCreate) -> ModelType:
+        return super().create_instance(db, obj=doctor)
 
 
-def get_patient_by_email(db: Session, email: str):
-    return db.query(models.Patient, models.User).filter(models.Patient.id == models.User.id).filter(
-        models.User.email == email).first()
+doctor = CRUDDoctor(models.Doctor)
 
 
-def get_patients(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Patient, models.User).filter(models.Patient.id == models.User.id).offset(skip).limit(
-        limit).all()
+class CRUDPatient(CRUDBase[models.Patient, schemas.PatientCreate]):
+    def create_instance(self, db: Session, *, patient: schemas.UserCreate) -> ModelType:
+        return super().create_instance(db, obj=patient)
 
 
-def create_patient(db: Session, user: schemas.PatientCreate):
-    new_user = models.Patient(email=user.email,
-                              name=user.name,
-                              surname=user.surname,
-                              phone_number=user.phone_number,
-                              sex=user.sex,
-                              complaints=user.complaints,
-                              password=user.password)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
-
-
-# Doctor ========================
-def get_doctor(db: Session, doctor_id: UUID):
-    return db.query(models.Doctor, models.User).filter(models.Doctor.id == models.User.id).filter(models.Doctor.id == doctor_id).first()
-
-
-def get_doctor_by_email(db: Session, email: str):
-    return db.query(models.Doctor, models.User).filter(models.Doctor.id == models.User.id).filter(models.User.email == email).first()
-
-
-def get_doctors(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Doctor, models.User).filter(models.Doctor.id == models.User.id).offset(skip).limit(limit).all()
-
-
-def create_doctor(db: Session, user: schemas.DoctorCreate, photo):
-    new_user = models.Doctor(email=user.email,
-                             name=user.name,
-                             surname=user.surname,
-                             phone_number=user.phone_number,
-                             profile_description=user.profile_description,
-                             specialization=user.specialization,
-                             photo=photo,
-                             password=user.password)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+patient = CRUDPatient(models.Patient)

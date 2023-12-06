@@ -7,7 +7,7 @@ from src.settings import engine
 from src.routers import predictions, orm
 
 
-models.SQLModel.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="HeartUp")
 
 origins = ["*"]

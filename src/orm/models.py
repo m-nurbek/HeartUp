@@ -1,32 +1,34 @@
 from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import ForeignKey, Column, Enum
+from sqlalchemy import ForeignKey, Date, Time
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils import UUIDType, PasswordType, EmailType
-from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy_utils import UUIDType, PasswordType
 import uuid
-import enum
+
+from src.settings import Base
 
 
-class User(SQLModel, table=True):
+class User(Base):
     __tablename__ = 'user'
-    user_id: Optional[uuid.UUID] = Field(sa_column=Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4))
-    email: str = Field(sa_column=Column(EmailType))
-    name: str = Field(max_length=30)
-    surname: Optional[str] = Field(default=None, max_length=30)
-    phone_number: str = Field()
+    id = mapped_column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+    email: Mapped[str] = mapped_column('email')
+    name: Mapped[str] = mapped_column('name')
+    surname: Mapped[Optional[str]] = mapped_column('surname')
+    phone_number: Mapped[str] = mapped_column('phone_number')
 
-    password: str = Field(sa_column=Column(PasswordType(
+    password = mapped_column(PasswordType(
         schemes=[
             'pbkdf2_sha512',
             'md5_crypt'
         ],
         deprecated=['md5_crypt'],
-    )))
+    ))
 
     # Relationships
-    _doctor: "Doctor" = Relationship(back_populates='_user', sa_relationship_kwargs={'cascade': 'all, delete-orphan'})
-    _patient: "Patient" = Relationship(back_populates='_user', sa_relationship_kwargs={'cascade': 'all, delete-orphan'})
+    _doctor: Mapped["Doctor"] = relationship(back_populates='_user', cascade='all, delete-orphan')
+    _patient: Mapped["Patient"] = relationship(back_populates='_user', cascade='all, delete-orphan')
 
     def __init__(self, email, name, surname, phone_number, password, **kwargs):
         super().__init__(**kwargs)
@@ -37,55 +39,39 @@ class User(SQLModel, table=True):
         self.password = password
 
     def __repr__(self):
-        return f"{self.user_id}: {self.name} {self.surname} ({self.email})"
+        return f"{self.id}: {self.name} {self.surname} ({self.email})"
 
 
-class Doctor(SQLModel, table=True):
+class Doctor(User):
     __tablename__ = 'doctor'
 
-    class Specialization(str, enum.Enum):
-        neurologist = 'neurologist'
-        pediatrician = 'pediatrician'
-        cardiologist = 'cardiologist'
-        general_practitioner = 'general_practitioner'
-        radiologist = 'radiologist'
-        surgeon = 'surgeon'
-        oncologist = 'oncologist'
-        not_available = 'not_available'
+    id = mapped_column(UUIDType(binary=False), ForeignKey('user.id'), primary_key=True, default=uuid.uuid4)
+    profile_description: Mapped[str] = mapped_column('profile_description')
+    photo: Mapped[Optional[str]] = mapped_column('photo', default="No photo")
+    specialization: Mapped[str] = mapped_column('specialization')
 
-    doctor_id: Optional[uuid.UUID] = Field(
-        sa_column=Column(UUIDType(binary=False), ForeignKey('user.user_id'), primary_key=True, default=uuid.uuid4))
-    profile_description: str = Field()
-    photo: str = Field()
-    specialization: Specialization = Field(sa_column=Column(Enum(Specialization)))
-
-    _user: "User" = Relationship(back_populates='_doctor')
-    _appointment: List["Appointment"] = Relationship(back_populates='_doctor',
-                                                     sa_relationship_kwargs={'cascade': 'all, delete-orphan'})
+    _user: Mapped["User"] = relationship(back_populates='_doctor')
+    _appointment: Mapped[List["Appointment"]] = relationship(back_populates='_doctor', cascade='all, delete-orphan')
 
     def __init__(self, email, name, surname, phone_number, profile_description, photo, specialization, password,
                  **kwargs):
-        (email, name, surname, phone_number, password)
+        super().__init__(email, name, surname, phone_number, password, **kwargs)
         self.profile_description = profile_description
         self.photo = photo
         self.specialization = specialization
 
 
-class Patient(SQLModel, table=True):
+class Patient(User):
     __tablename__ = 'patient'
 
-    class Sex(str, enum.Enum):
-        male = 'male'
-        female = 'female'
+    id = mapped_column(UUIDType(binary=False), ForeignKey('user.id'), primary_key=True,
+                       default=uuid.uuid4)
+    sex: Mapped[str] = mapped_column('sex')
+    complaints: Mapped[str] = mapped_column('complaints')
 
-    patient_id: Optional[uuid.UUID] = Field(
-        sa_column=Column(UUIDType(binary=False), ForeignKey('user.user_id'), primary_key=True, default=uuid.uuid4))
-    sex: str = Field(sa_column=Column(Enum(Sex)))
-    complaints: str = Field()
-
-    _user: "User" = Relationship(back_populates='_patient')
-    _appointment: List["Appointment"] = Relationship(back_populates='_patient',
-                                                     sa_relationship_kwargs={'cascade': 'all, delete-orphan'})
+    _user: Mapped["User"] = relationship(back_populates='_patient')
+    _appointment: Mapped[List["Appointment"]] = relationship(back_populates='_patient',
+                                                             cascade='all, delete-orphan')
 
     def __init__(self, email, name, surname, phone_number, sex, complaints, password, **kwargs):
         super().__init__(email, name, surname, phone_number, password, **kwargs)
@@ -93,26 +79,20 @@ class Patient(SQLModel, table=True):
         self.complaints = complaints
 
 
-class Appointment(SQLModel, table=True):
+class Appointment(Base):
     __tablename__ = 'appointment'
 
-    class Status(str, enum.Enum):
-        pending = 'pending'
-        accepted = 'accepted'
-        denied = 'denied'
+    id = mapped_column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+    doctor_id = mapped_column(ForeignKey('doctor.id'))
+    patient_id = mapped_column(ForeignKey('patient.id'))
+    appointment_date = mapped_column('appointment_date', Date, default=datetime.utcnow().date())
+    appointment_time = mapped_column('appointment_time', Time, default=datetime.utcnow().time())
+    status: Mapped[str] = mapped_column('status')
 
-    appointment_id: Optional[uuid.UUID] = Field(sa_column=Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4))
-    doctor_id: Optional[uuid.UUID] = Field(default=None, sa_column=Column(ForeignKey('doctor.doctor_id')))
-    patient_id: Optional[uuid.UUID] = Field(default=None, sa_column=Column(ForeignKey('patient.patient_id')))
-    appointment_date: datetime = Field(default=datetime.utcnow().date())
-    appointment_time: datetime = Field(default=datetime.utcnow().time())
-    status: str = Field(sa_column=Column(Enum(Status)))
+    _doctor: Mapped["Doctor"] = relationship(back_populates='_appointment')
+    _patient: Mapped["Patient"] = relationship(back_populates='_appointment')
 
-    _doctor: "Doctor" = relationship(back_populates='_appointment')
-    _patient: "Patient" = relationship(back_populates='_appointment')
-
-    def __init__(self, doctor_id, patient_id, appointment_date, appointment_time, status, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, doctor_id, patient_id, appointment_date, appointment_time, status):
         self.doctor_id = doctor_id
         self.patient_id = patient_id
         self.appointment_time = appointment_time

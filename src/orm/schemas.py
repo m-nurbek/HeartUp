@@ -1,13 +1,12 @@
-import uuid
-from datetime import datetime
+from pydantic import BaseModel
+from enum import Enum
 from typing import Optional
-from sqlmodel import SQLModel
 
 
-class UserBase(SQLModel):
+class UserBase(BaseModel):
     email: str
     name: str
-    surname: Optional[str]
+    surname: str
     phone_number: str
 
 
@@ -15,13 +14,24 @@ class UserCreate(UserBase):
     password: str
 
 
-class UserRead(UserBase):
-    user_id: uuid.UUID
+class User(UserBase):
+    class Config:
+        orm_mode = True
+
+
+class Specialization(str, Enum):
+    neurologist = 'neurologist'
+    pediatrician = 'pediatrician'
+    cardiologist = 'cardiologist'
+    general_practitioner = 'general_practitioner'
+    radiologist = 'radiologist'
+    surgeon = 'surgeon'
+    oncologist = 'oncologist'
+    not_available = 'not_available'
 
 
 class DoctorBase(UserBase):
     profile_description: str
-    photo: str
     specialization: str
 
 
@@ -29,12 +39,20 @@ class DoctorCreate(DoctorBase, UserCreate):
     pass
 
 
-class DoctorRead(DoctorBase):
-    doctor_id: uuid.UUID
+class Doctor(DoctorBase):
+    photo: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
+class Sex(str, Enum):
+    male = 'male'
+    female = 'female'
 
 
 class PatientBase(UserBase):
-    sex: str
+    sex: Sex
     complaints: str
 
 
@@ -42,21 +60,8 @@ class PatientCreate(PatientBase, UserCreate):
     pass
 
 
-class PatientRead(PatientBase):
-    patient_id: uuid.UUID
+class Patient(PatientBase):
+    _user: User
 
-
-class AppointmentBase(SQLModel):
-    doctor_id: uuid.UUID
-    patient_id: uuid.UUID
-    appointment_date: datetime
-    appointment_time: datetime
-    status: str
-
-
-class AppointmentCreate(AppointmentBase):
-    pass
-
-
-class AppointmentRead(AppointmentBase):
-    appointment_id: uuid.UUID
+    class Config:
+        orm_mode: True
