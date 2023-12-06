@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi.responses import StreamingResponse
 from typing import Annotated, Optional
 from io import BytesIO
 from PIL import Image
 import numpy as np
 import pickle
 import cv2
-import os
 
 from src.ml_models import yolov8
 from src.settings import BASE_DIR
-from fastapi.responses import StreamingResponse
+
 
 router = APIRouter()
 
@@ -18,7 +18,7 @@ def image_to_feature_vector(image_path, size=(64, 64)):
     return cv2.resize(image_path, size).flatten()
 
 
-with open(os.path.abspath(os.path.join(BASE_DIR, 'src/ml_models/model.pkl')), 'rb') as file:
+with open(BASE_DIR / "src/ml_models/model.pkl", 'rb') as file:
     CLF = pickle.load(file)
 
 

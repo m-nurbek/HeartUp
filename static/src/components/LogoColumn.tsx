@@ -1,3 +1,4 @@
+
 function LogoColumn() {
   const footerContainer = {
     display: 'flex',

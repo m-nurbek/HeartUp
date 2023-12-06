@@ -6,8 +6,12 @@ import {useState} from "react";
 
 function Navbar() {
     const [on, setOn] = useState<boolean>(false);
+
     const toggleNavbar = () => {
-        setOn(!on);
+        const currentViewportSize = window.innerWidth;
+        if(currentViewportSize < 900) {
+            setOn(false);
+        }
     }
 
     return (
