@@ -48,6 +48,8 @@ function FeatureBox({ heading, bodyInfo, src, alt }: Props){
                   <p className="lead" style={mainTextStyle} >
                       {bodyInfo}
                   </p>
+                <button type="button" className="btn btn-outline-primary">Learn more</button>
+
             </div>
         </>
     );

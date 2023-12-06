@@ -7,9 +7,9 @@ function Footer(){
         border: '2px solid black',
         padding: '20px',
         marginLeft: '64px',
+        marginRight: '64px',
+        marginTop: '100px',
         marginBottom: '32px',
-        width: '1300px'
-
     };
 
     return (
