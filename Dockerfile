@@ -1,5 +1,5 @@
 FROM python:3.11-slim
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 cmake -y
 WORKDIR /app/
 COPY . .
 RUN pip install --upgrade pip
