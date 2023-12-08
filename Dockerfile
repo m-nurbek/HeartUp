@@ -3,7 +3,7 @@ RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 cmake build-essenti
 WORKDIR /app/
 COPY . .
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir meson-python
+RUN pip install --no-cache-dir meson-python pybind11
 RUN pip install --no-cache-dir contourpy -U --no-build-isolation
 RUN pip install --no-cache-dir -r requirements.txt
 
