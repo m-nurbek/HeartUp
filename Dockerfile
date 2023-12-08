@@ -3,9 +3,7 @@ RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 cmake build-essenti
 WORKDIR /app/
 COPY . .
 RUN pip install --upgrade pip
-RUN python -m venv venv
-RUN source ./venv/bin/activate
-RUN pip install --no-cache-dir contourpy
+RUN pip install --no-cache-dir contourpy -U --no-build-isolation
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
