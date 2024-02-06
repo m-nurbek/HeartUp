@@ -3,6 +3,7 @@ import NavbarButton from "./NavbarButton.tsx";
 import ChevronDown from "../../assets/chevron_down.svg"
 import CompanyLogo from "../../assets/company_logo.svg"
 import {useState} from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
     const [on, setOn] = useState<boolean>(false);
@@ -25,6 +26,9 @@ function Navbar() {
             </div>
             <div className={styles.column} id={"toggle"} style={on ? {display: "none"} : {display:"flex"}}>
                 <div className={styles.links_wrapper}>
+                    <Link to="/HeartUp" className={styles.link}>
+                        <span className={styles.linkText}>Home Page</span>
+                    </Link>
                     <a className={styles.link} href={""}>About Us</a>
                     <a className={styles.link} href={""}>Services</a>
                     <a className={styles.link} href={""}>Projects</a>

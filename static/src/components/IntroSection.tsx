@@ -1,7 +1,8 @@
 import YoloButton from "./YoloButton.tsx";
 import VehiclesButton from "./VehiclesButton.tsx";
-import Image from "/src/HospitalImg.jpg";
+import Image_Intro from "/src/HospitalImg.jpg";
 import {CSSProperties, RefObject} from "react";
+import { Link } from "react-router-dom";
 
 function IntroSection({predictionCarRef} : {predictionCarRef: RefObject<HTMLElement>} ) {
   const containerStyle: CSSProperties = {
@@ -21,7 +22,7 @@ function IntroSection({predictionCarRef} : {predictionCarRef: RefObject<HTMLElem
     left: 0,
     width: '100%',
     height: '110%',
-    backgroundImage: `url(${Image})`,
+    backgroundImage: `url(${Image_Intro})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     filter: 'brightness(40%)', // Dimming effect
@@ -47,8 +48,10 @@ function IntroSection({predictionCarRef} : {predictionCarRef: RefObject<HTMLElem
                 Welcome to our AI platform that provides real-time updates on a <br /> project aiming to enhance early detection of Coronary Artery Disease. <br /> Our user-friendly interactions combine informative content with a <br /> visually appealing and secure design, ensuring you have the tools you <br /> need to prioritize your heart health.
               </p>
               <YoloButton onClick={() => predictionCarRef.current?.scrollIntoView({ behavior: 'instant' })} />
-              <VehiclesButton onClick={() => predictionCarRef.current?.scrollIntoView({ behavior: 'instant' })} />
-        </div>
+              <Link to="/model_page">
+                <VehiclesButton/>
+              </Link>        
+            </div>
     </div>
   );
 }

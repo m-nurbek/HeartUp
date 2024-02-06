@@ -1,10 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-interface ButtonProps {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
 
-function VehiclesButton({onClick} : ButtonProps){
+
+function VehiclesButton(){
 
     const scrollToSection = () => {
     // Replace 'your-section-id' with the ID of the section you want to scroll to
@@ -22,10 +21,11 @@ function VehiclesButton({onClick} : ButtonProps){
 
     return(
         <>
-            <button className="btn btn-primary" style={{marginLeft:'80px', marginBottom: '40px'}} type="button"
-            onClick={scrollToSection}>
+            <button className="btn btn-primary" style={{marginLeft:'80px', marginBottom: '40px'}} type="button">
                 Try out Vehicle prediction
+                <Link to="/model_page"/>
             </button>
+            
         </>
     );
 }

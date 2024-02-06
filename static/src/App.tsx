@@ -1,10 +1,15 @@
+import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
+import ModelPage from "./pages/ModelPage.tsx";
 
-function App() {
+const App: React.FC = () => {
 
     return (
-        <>
-            <HomePage/>
+        <>  
+            <Routes>
+                <Route path="/HeartUp" element={<HomePage/>} />
+                <Route path="/model_page" element={<ModelPage/>} />
+            </Routes>
         </>
     );
 }
