@@ -29,8 +29,12 @@ function Navbar() {
                     <Link to="/HeartUp" className={styles.link}>
                         <span className={styles.linkText}>Home Page</span>
                     </Link>
-                    <a className={styles.link} href={""}>About Us</a>
-                    <a className={styles.link} href={""}>Services</a>
+                    <Link to="/about_us" className={styles.link}>
+                        <span className={styles.linkText}>About Us</span>
+                    </Link>
+                    <Link to="/services" className={styles.link}>
+                        <span className={styles.linkText}>Services</span>
+                    </Link>
                     <a className={styles.link} href={""}>Projects</a>
                     <a className={styles.link + " " + styles.more} href={""}>
                         <div className={styles.span}>

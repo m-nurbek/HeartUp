@@ -22,7 +22,7 @@ function VehiclesButton(){
     return(
         <>
             <button className="btn btn-primary" style={{marginLeft:'80px', marginBottom: '40px'}} type="button">
-                Try out Vehicle prediction
+                Try Out Our Model!
                 <Link to="/model_page"/>
             </button>
             

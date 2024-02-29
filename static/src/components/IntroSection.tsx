@@ -47,9 +47,10 @@ function IntroSection({predictionCarRef} : {predictionCarRef: RefObject<HTMLElem
               <p className="lead" style={textStyles} >
                 Welcome to our AI platform that provides real-time updates on a <br /> project aiming to enhance early detection of Coronary Artery Disease. <br /> Our user-friendly interactions combine informative content with a <br /> visually appealing and secure design, ensuring you have the tools you <br /> need to prioritize your heart health.
               </p>
-              <YoloButton onClick={() => predictionCarRef.current?.scrollIntoView({ behavior: 'instant' })} />
               <Link to="/model_page">
-                <VehiclesButton/>
+                <div style={{textAlign: 'center', transform: 'translateX(-5%)', marginTop: '25px'}}>
+                  <VehiclesButton/>
+                </div>
               </Link>        
             </div>
     </div>

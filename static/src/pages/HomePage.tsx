@@ -1,5 +1,9 @@
     import Navbar from "../components/navbar/Navbar.tsx";
     import AlignedPredictions from "../components/AlignedPredictions.tsx";
+    import feature_1 from "../assets/settings.png"
+    import feature_2 from "../assets/protection.png"
+    import feature_3 from "../assets/crosshair.png"
+
     import IntroSection from "../components/IntroSection.tsx";
     import AlignedFeatures from "../components/AlignedFeatures.tsx";
     import {useRef} from "react";
@@ -14,7 +18,11 @@ const HomePage: React.FC = () => {
         <>
             <Navbar/>
             <IntroSection predictionCarRef={predictionCarRef}/>
-            <AlignedFeatures/>
+            <AlignedFeatures
+                src1={"/src/assets/settings.png"}
+                src2={"/src/assets/protection.png"}
+                src3={"/src/assets/crosshair.png"}
+            />
             <AlignedPredictions/>
             <Footer/>
 
