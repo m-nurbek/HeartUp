@@ -9,12 +9,12 @@ function ServicesPage(){
     const containerStyle: CSSProperties = {
         position: 'relative',
         width: '100%', // Adjust width as needed
-        height: '600px', // Adjust height as needed
+        height: '950px', // Adjust height as needed
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: '20px',
+        padding: '25px',
       };
     
       const imageLayerStyle: CSSProperties = {
@@ -59,9 +59,15 @@ function ServicesPage(){
                                 We provide a platform that will help in early detection of Coronary Artery Disease. <br/> We are using machine learning algorithms to analyze the data and provide the user with the results. <br/> Our user-friendly interactions combine informative content with a visually appealing and secure design,<br/> ensuring you have the tools you need to prioritize your heart health.
                             </p>
                             <AlignedFeatures
-                                src1={"/src/assets/settings_white.png"}
-                                src2={"/src/assets/shield_white.png"}
-                                src3={"/src/assets/crosshair_white.png"}
+                                src1={"/src/assets/prediction.png"}
+                                src2={"/src/assets/management.png"}
+                                src3={"/src/assets/analysis.png"}
+                                heading1={"Reliable prediction of the LVAD Failure"}
+                                heading2={"Ready to use Hospital Management Tools"}
+                                heading3={"Storage of medical analyses and data"}
+                                text1={""}
+                                text2={""}
+                                text3={""}
                             />
                             
                             

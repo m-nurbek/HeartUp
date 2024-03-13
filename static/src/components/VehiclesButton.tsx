@@ -21,8 +21,8 @@ function VehiclesButton(){
 
     return(
         <>
-            <button className="btn btn-primary" style={{marginLeft:'80px', marginBottom: '40px'}} type="button">
-                Try Out Our Model!
+            <button className="btn btn-primary" style={{height: "5em", width: "12em", marginLeft:'80px', marginBottom: '40px'}} type="button">
+                <h4>Try Out Our Model!</h4>
                 <Link to="/model_page"/>
             </button>
             
