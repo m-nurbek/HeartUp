@@ -8,8 +8,8 @@
     import AlignedFeatures from "../components/AlignedFeatures.tsx";
     import {useRef} from "react";
     import Footer from "../components/Footer.tsx";
-import VehiclesButton from "../components/VehiclesButton.tsx";
-import { Link } from "react-router-dom";
+    import VehiclesButton from "../components/VehiclesButton.tsx";
+    import { Link } from "react-router-dom";
 
 const HomePage: React.FC = () => {
     const predictionCarRef = useRef<HTMLElement>(null);

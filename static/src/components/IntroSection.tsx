@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 function IntroSection({predictionCarRef} : {predictionCarRef: RefObject<HTMLElement>} ) {
   const containerStyle: CSSProperties = {
     position: 'relative',
-    width: '100%', // Adjust width as needed
+    width: 'auto', // Adjust width as needed
     height: '600px', // Adjust height as needed
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    padding: '20px',
+    padding: '0px',
   };
 
   const imageLayerStyle: CSSProperties = {
@@ -21,16 +21,17 @@ function IntroSection({predictionCarRef} : {predictionCarRef: RefObject<HTMLElem
     top: 0,
     left: 0,
     width: '100%',
-    height: '110%',
+    height: '115%',
     backgroundImage: `url(${Image_Intro})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    filter: 'brightness(40%)', // Dimming effect
+    filter: 'brightness(35%)', // Dimming effect
   };
 
   const textStyles: CSSProperties = {
     color: 'white', // Text color
-      marginLeft: '64px',
+      marginLeft: '40px',
+      marginRight: '40px',
       marginTop: '40px',
       filter: 'brightness(100%)'
   };

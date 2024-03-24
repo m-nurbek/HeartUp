@@ -44,8 +44,7 @@ function Navbar() {
                     </a>
                 </div>
                 <div className={styles.actions}>
-                    <NavbarButton type={"secondary"} href={""}>Sign Up</NavbarButton>
-                    <NavbarButton type={"primary"} href={""}>Login</NavbarButton>
+                    <NavbarButton type={"primary"} href={""}>Admin Login</NavbarButton>
                 </div>
             </div>
         </div>

@@ -3,3 +3,24 @@
   justify-content: center;
 }
 
+.aligned-features-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.feature-box {
+  flex: 1 1 100px; /* Adjust the width as per your requirement */
+  margin: 10px;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 1130px) {
+  .aligned-features-container {
+    flex-direction: column; /* Stack boxes vertically on smaller screens */
+    align-items: center; /* Center align items */
+  }
+}
+
